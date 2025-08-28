@@ -1,4 +1,4 @@
-// Installer click logic
+// INSTALLER LOGIC
 const installBtn = document.getElementById("installBtn");
 const installerBox = document.querySelector(".installer-box");
 const downloadLinks = document.querySelector(".download-links");
@@ -9,20 +9,20 @@ installBtn.addEventListener("click", () => {
   downloadLinks.style.display = "flex";
 });
 
-// Background “code rain” effect
-const canvas = document.getElementById('background');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// BACKGROUND CODE RAIN
+const bgCanvas = document.getElementById('background');
+const ctx = bgCanvas.getContext('2d');
+bgCanvas.width = window.innerWidth;
+bgCanvas.height = window.innerHeight;
 
 const chars = ['#', '*', '1', '0'];
 const fontSize = 18;
-const columns = Math.floor(canvas.width / fontSize);
+const columns = Math.floor(bgCanvas.width / fontSize);
 const drops = Array(columns).fill(0);
 
-function draw() {
-  ctx.fillStyle = 'rgba(26,10,42,0.1)'; // semi-transparent background to fade
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+function drawBackground(){
+  ctx.fillStyle = 'rgba(26,10,42,0.1)';
+  ctx.fillRect(0,0,bgCanvas.width,bgCanvas.height);
 
   ctx.fillStyle = '#ff79f0';
   ctx.font = fontSize + 'px monospace';
@@ -31,24 +31,26 @@ function draw() {
     const text = chars[Math.floor(Math.random()*chars.length)];
     ctx.fillText(text, i*fontSize, drops[i]*fontSize);
 
-    if(drops[i]*fontSize > canvas.height || Math.random() > 0.975){
+    if(drops[i]*fontSize > bgCanvas.height || Math.random() > 0.975){
       drops[i] = 0;
     }
     drops[i]++;
   }
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawBackground);
 }
-draw();
+drawBackground();
 
-// Tentacle following mouse
+// TENTACLE (WAVY LINE) FOLLOWING MOUSE
 const tentacleCanvas = document.getElementById('tentacle');
 const tCtx = tentacleCanvas.getContext('2d');
 tentacleCanvas.width = window.innerWidth;
 tentacleCanvas.height = window.innerHeight;
 
-let mouseX = canvas.width/2;
-let mouseY = canvas.height/2;
-let tail = [];
+let mouseX = tentacleCanvas.width/2;
+let mouseY = tentacleCanvas.height/2;
+let points = [];
+const maxPoints = 30;
+let tentacleEnabled = true;
 
 window.addEventListener('mousemove', (e)=>{
   mouseX = e.clientX;
@@ -57,26 +59,37 @@ window.addEventListener('mousemove', (e)=>{
 
 function drawTentacle(){
   tCtx.clearRect(0,0,tentacleCanvas.width,tentacleCanvas.height);
-  tail.push({x: mouseX, y: mouseY});
-  if(tail.length>20) tail.shift();
+  if(tentacleEnabled){
+    points.push({x: mouseX, y: mouseY});
+    if(points.length > maxPoints) points.shift();
 
-  tCtx.strokeStyle = '#ff7eff';
-  tCtx.lineWidth = 4;
-  tCtx.beginPath();
-  for(let i=0;i<tail.length;i++){
-    if(i===0) tCtx.moveTo(tail[i].x, tail[i].y);
-    else tCtx.lineTo(tail[i].x, tail[i].y);
+    tCtx.strokeStyle = '#ff7eff';
+    tCtx.lineWidth = 4;
+    tCtx.beginPath();
+    for(let i=0;i<points.length;i++){
+      const p = points[i];
+      // Wavy effect using sine
+      const offsetY = Math.sin(i/2 + Date.now()/500) * 8;
+      if(i===0) tCtx.moveTo(p.x, p.y + offsetY);
+      else tCtx.lineTo(p.x, p.y + offsetY);
+    }
+    tCtx.stroke();
   }
-  tCtx.stroke();
-
   requestAnimationFrame(drawTentacle);
 }
 drawTentacle();
 
-// Adjust canvas on resize
+// TOGGLE TENTACLE BUTTON
+const toggleBtn = document.getElementById('toggleTentacle');
+toggleBtn.addEventListener('click', ()=>{
+  tentacleEnabled = !tentacleEnabled;
+  if(!tentacleEnabled) tCtx.clearRect(0,0,tentacleCanvas.width,tentacleCanvas.height);
+});
+  
+// RESIZE CANVASES
 window.addEventListener('resize', ()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
   tentacleCanvas.width = window.innerWidth;
   tentacleCanvas.height = window.innerHeight;
 });
