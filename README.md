@@ -1,3 +1,3 @@
-# mhawk.github.io
+# Read me
 
-try my game <3
+go away.
