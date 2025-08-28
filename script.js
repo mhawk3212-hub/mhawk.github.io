@@ -1,19 +1,23 @@
 const installBtn = document.getElementById("installBtn");
-const statusText = document.getElementById("status");
-const linksDiv = document.querySelector(".links");
+const statusText = document.getElementById("statusText");
+const downloadLinks = document.querySelector(".download-links");
 
+// Top animated messages
+const messages = ["Initializing...", "Checking system...", "Preparing files...", "Almost ready..."];
+let msgIndex = 0;
+
+setInterval(() => {
+  statusText.textContent = messages[msgIndex];
+  msgIndex = (msgIndex + 1) % messages.length;
+}, 2000);
+
+// Install button
 installBtn.addEventListener("click", () => {
-  statusText.textContent = "Installing...";
   installBtn.disabled = true;
+  statusText.textContent = "Installing...";
 
-  // Simulate install delay
   setTimeout(() => {
     statusText.textContent = "✅ Installation complete!";
-    
-    // Show clickable "links" after installation
-    linksDiv.innerHTML = `
-      <a href="https://example.com/download1" target="_blank">Download 1</a>
-      <a href="https://example.com/download2" target="_blank">Download 2</a>
-    `;
+    downloadLinks.style.display = "flex";
   }, 3000);
 });
