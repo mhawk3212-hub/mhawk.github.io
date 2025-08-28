@@ -1,5 +1,5 @@
 // GLITCH TEXT ANIMATION
-const targetText = "Ink games external";
+const targetText = "Roblox External controller app.";
 const glitchChars = ['@','&','{','#','%','*','?','!'];
 const glitchTextElement = document.getElementById("glitchText");
 let iteration = 0;
