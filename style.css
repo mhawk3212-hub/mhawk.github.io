@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
 
-/* Fallback font: Ginto for Copilot vibe */
 body {
   margin: 0;
   height: 100vh;
@@ -18,7 +17,7 @@ body {
 .installer-box {
   position: relative;
   z-index: 5;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.55);
   padding: 40px 60px;
   border-radius: 25px;
   text-align: center;
@@ -32,24 +31,12 @@ body {
   color: #ff79f0;
 }
 
-.installer-box p {
-  font-size: 1.2rem;
-  margin: 12px 0;
-}
-
-.installer-box .links {
-  margin-top: 20px;
-}
-
-.installer-box .links a {
-  color: #ff7eff;
-  text-decoration: none;
-  margin: 0 10px;
-  transition: color 0.3s;
-}
-
-.installer-box .links a:hover {
-  color: #d96aff;
+/* Animated top status text */
+#statusText {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  height: 1.5em; /* prevent jump when text changes */
+  color: #ffb3ff;
 }
 
 /* Buttons */
@@ -70,50 +57,77 @@ button:hover {
   background: linear-gradient(90deg, #ff7eff, #d96aff);
   transform: scale(1.05);
   box-shadow: 0 6px 25px rgba(255, 0, 200, 0.7);
+  text-decoration: none;
 }
 
-/* Multi-layer animated blur backgrounds */
-.background-blur, 
-.background-blur::after, 
-.background-blur::before {
+/* Download links */
+.download-links {
+  margin-top: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.download-links a {
+  padding: 12px 25px;
+  background: linear-gradient(90deg, #ff7eff, #d96aff);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.download-links a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(255,0,200,0.7);
+}
+
+/* Background blobs */
+.background-blur,
+.background-blur::after,
+.background-blur::before,
+.background-blur::nth-child(4),
+.background-blur::nth-child(5) {
   position: absolute;
-  width: 160%;
-  height: 160%;
-  top: -30%;
-  left: -30%;
-  filter: blur(200px);
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
   border-radius: 50%;
+  filter: blur(250px);
   z-index: 1;
-  animation: drift 40s linear infinite;
 }
 
 .background-blur {
   background: radial-gradient(circle at 30% 30%, rgba(200,0,255,0.4), transparent 70%);
+  animation: drift1 50s linear infinite;
 }
 
 .background-blur::after {
-  content: '';
-  background: radial-gradient(circle at 70% 40%, rgba(255,0,200,0.4), transparent 70%);
-  animation: drift2 60s linear infinite;
+  content:'';
+  background: radial-gradient(circle at 70% 40%, rgba(255,0,200,0.35), transparent 70%);
+  animation: drift2 70s linear infinite;
 }
 
 .background-blur::before {
-  content: '';
-  background: radial-gradient(circle at 50% 80%, rgba(150,0,255,0.35), transparent 70%);
-  animation: drift3 50s linear infinite;
+  content:'';
+  background: radial-gradient(circle at 50% 80%, rgba(150,0,255,0.3), transparent 70%);
+  animation: drift3 60s linear infinite;
 }
 
-@keyframes drift {
-  0% { transform: rotate(35deg) translateY(0); }
-  100% { transform: rotate(35deg) translateY(120vh); }
+@keyframes drift1 {
+  0% { transform: rotate(35deg) translate(0,0); }
+  100% { transform: rotate(35deg) translate(50vw,50vh); }
 }
 
 @keyframes drift2 {
-  0% { transform: rotate(-25deg) translateY(0); }
-  100% { transform: rotate(-25deg) translateY(120vh); }
+  0% { transform: rotate(-25deg) translate(0,0); }
+  100% { transform: rotate(-25deg) translate(-40vw,60vh); }
 }
 
 @keyframes drift3 {
-  0% { transform: rotate(15deg) translateY(0); }
-  100% { transform: rotate(15deg) translateY(120vh); }
+  0% { transform: rotate(15deg) translate(0,0); }
+  100% { transform: rotate(15deg) translate(60vw,-50vh); }
 }
