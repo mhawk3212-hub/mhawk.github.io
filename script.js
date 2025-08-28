@@ -1,15 +1,45 @@
-// INSTALLER LOGIC
+// GLITCH TEXT ANIMATION
+const targetText = "Ink games external";
+const glitchChars = ['@','&','{','#','%','*','?','!'];
+const glitchTextElement = document.getElementById("glitchText");
+let iteration = 0;
+
+function glitchStep(){
+  let display = "";
+  for(let i=0;i<targetText.length;i++){
+    if(i < iteration){
+      display += targetText[i];
+    } else {
+      display += glitchChars[Math.floor(Math.random()*glitchChars.length)];
+    }
+  }
+  glitchTextElement.textContent = display;
+  iteration += 1/3; // speed of reveal
+  if(iteration <= targetText.length){
+    requestAnimationFrame(glitchStep);
+  }
+}
+
+glitchStep();
+
+// BUTTON LOGIC
 const installBtn = document.getElementById("installBtn");
 const installerBox = document.querySelector(".installer-box");
 const downloadLinks = document.querySelector(".download-links");
+const chooseVersionText = document.getElementById("chooseVersion");
 
 installBtn.addEventListener("click", () => {
-  installerBox.classList.add("installed");
+  // hide first line
+  glitchTextElement.style.display = "none";
+  // show second line
+  chooseVersionText.style.display = "block";
+  // hide button
   installBtn.style.display = "none";
+  // show download links
   downloadLinks.style.display = "flex";
 });
 
-// MULTI-LAYER WAVY CODE BACKGROUND
+// BACKGROUND WAVY CODE CHARACTERS
 const canvas = document.getElementById('background');
 const ctx = canvas.getContext('2d');
 
