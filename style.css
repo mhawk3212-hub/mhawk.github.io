@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
+
 body {
   margin: 0;
   overflow: hidden;
   font-family: 'Ginto', 'Aptos', sans-serif;
-  background: #1a0a2a; /* keep your neon/purple vibe */
+  background: #1a0a2a;
   color: #f0f0f5;
   display: flex;
   justify-content: center;
@@ -10,6 +12,7 @@ body {
   height: 100vh;
 }
 
+/* Canvas layers */
 canvas#background, canvas#tentacle {
   position: absolute;
   top: 0;
@@ -19,6 +22,7 @@ canvas#background, canvas#tentacle {
   z-index: 0;
 }
 
+/* Installer box */
 .installer-box {
   position: relative;
   z-index: 5;
@@ -37,6 +41,13 @@ canvas#background, canvas#tentacle {
   transform: scale(1.05);
 }
 
+.installer-box h1 {
+  font-size: 2.8rem;
+  margin-bottom: 30px;
+  color: #ff79f0;
+}
+
+/* Install button */
 button#installBtn {
   padding: 16px 35px;
   font-size: 18px;
@@ -55,6 +66,7 @@ button#installBtn:hover {
   box-shadow: 0 6px 35px rgba(255,0,200,0.8);
 }
 
+/* Download buttons */
 .download-links {
   margin-top: 30px;
   display: none;
@@ -76,4 +88,27 @@ button#installBtn:hover {
 .download-links a:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 30px rgba(255,0,200,0.8);
+}
+
+/* Toggle tentacle button */
+#toggleTentacle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff7eff, #d96aff);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255,0,200,0.5);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+#toggleTentacle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(255,0,200,0.7);
 }
