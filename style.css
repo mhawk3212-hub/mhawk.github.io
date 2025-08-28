@@ -14,28 +14,47 @@ body {
   color: #f0f0f5;
 }
 
+/* Installer box styling */
 .installer-box {
   position: relative;
   z-index: 2;
   background: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  border-radius: 15px;
+  padding: 40px 50px;
+  border-radius: 20px;
   text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
 }
 
+.installer-box h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #ff79f0;
+}
+
+.installer-box p {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+/* Buttons */
 button {
-  padding: 12px 20px;
-  font-size: 16px;
+  padding: 14px 28px;
+  font-size: 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  background: #d96aff;
+  background: linear-gradient(90deg, #d96aff, #ff7eff);
   color: white;
-  transition: background 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 0, 200, 0.4);
 }
 
 button:hover {
-  background: #ff7eff;
+  background: linear-gradient(90deg, #ff7eff, #d96aff);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 0, 200, 0.6);
 }
 
 /* Animated rotating blur background */
@@ -45,14 +64,33 @@ button:hover {
   left: -30%;
   width: 160%;
   height: 160%;
-  background: linear-gradient(135deg, rgba(200,0,255,0.3), rgba(255,0,200,0.3), rgba(150,0,255,0.3));
-  filter: blur(150px);
+  background: linear-gradient(135deg, rgba(200,0,255,0.35), rgba(255,0,200,0.35), rgba(150,0,255,0.35));
+  filter: blur(200px);
   transform: rotate(35deg);
-  animation: drift 15s linear infinite;
+  animation: drift 30s linear infinite;
   z-index: 1;
 }
 
 @keyframes drift {
   0% { transform: rotate(35deg) translateY(0); }
   100% { transform: rotate(35deg) translateY(100vh); }
+}
+
+/* Extra subtle moving second layer for depth */
+.background-blur::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
+  filter: blur(250px);
+  transform: rotate(-25deg);
+  animation: drift2 60s linear infinite;
+}
+
+@keyframes drift2 {
+  0% { transform: rotate(-25deg) translateY(0); }
+  100% { transform: rotate(-25deg) translateY(120vh); }
 }
