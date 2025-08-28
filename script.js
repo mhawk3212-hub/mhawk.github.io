@@ -9,41 +9,41 @@ installBtn.addEventListener("click", () => {
   downloadLinks.style.display = "flex";
 });
 
-// BACKGROUND WAVES
+// BACKGROUND WAVY CODE CHARACTERS
 const canvas = document.getElementById('background');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let waveOffset = 0;
+const chars = ['#','*','1','0'];
+const fontSize = 20;
+const columns = Math.floor(canvas.width / fontSize);
 
-function drawWave(){
-  ctx.clearRect(0,0,canvas.width, canvas.height);
-
-  const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
-  gradient.addColorStop(0, 'rgba(255,0,200,0.3)');
-  gradient.addColorStop(0.5, 'rgba(200,0,255,0.3)');
-  gradient.addColorStop(1, 'rgba(255,127,255,0.3)');
-  ctx.fillStyle = gradient;
-
-  ctx.beginPath();
-  ctx.moveTo(0, canvas.height/2);
-
-  for(let x=0; x<=canvas.width; x+=20){
-    const y = canvas.height/2 + Math.sin((x+waveOffset)/100)*60;
-    ctx.lineTo(x, y);
-  }
-
-  ctx.lineTo(canvas.width, canvas.height);
-  ctx.lineTo(0, canvas.height);
-  ctx.closePath();
-  ctx.fill();
-
-  waveOffset += 2; // speed of wave
-  requestAnimationFrame(drawWave);
+const waveData = [];
+for(let i=0;i<columns;i++){
+  waveData.push(Math.random() * canvas.height);
 }
 
-drawWave();
+let waveOffset = 0;
+
+function drawWaveChars(){
+  ctx.fillStyle = 'rgba(26,10,42,0.15)';
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+
+  ctx.fillStyle = '#ff79f0';
+  ctx.font = fontSize + "px monospace";
+
+  for(let i=0;i<columns;i++){
+    const char = chars[Math.floor(Math.random()*chars.length)];
+    const y = canvas.height/2 + Math.sin((i/2 + waveOffset)/10)*50 + waveData[i];
+    ctx.fillText(char, i*fontSize, y);
+  }
+
+  waveOffset += 0.5;
+  requestAnimationFrame(drawWaveChars);
+}
+
+drawWaveChars();
 
 // RESIZE CANVAS
 window.addEventListener('resize', ()=>{
