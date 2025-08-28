@@ -9,87 +9,44 @@ installBtn.addEventListener("click", () => {
   downloadLinks.style.display = "flex";
 });
 
-// BACKGROUND CODE RAIN
-const bgCanvas = document.getElementById('background');
-const ctx = bgCanvas.getContext('2d');
-bgCanvas.width = window.innerWidth;
-bgCanvas.height = window.innerHeight;
+// BACKGROUND WAVES
+const canvas = document.getElementById('background');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-const chars = ['#', '*', '1', '0'];
-const fontSize = 18;
-const columns = Math.floor(bgCanvas.width / fontSize);
-const drops = Array(columns).fill(0);
+let waveOffset = 0;
 
-function drawBackground(){
-  ctx.fillStyle = 'rgba(26,10,42,0.1)';
-  ctx.fillRect(0,0,bgCanvas.width,bgCanvas.height);
+function drawWave(){
+  ctx.clearRect(0,0,canvas.width, canvas.height);
 
-  ctx.fillStyle = '#ff79f0';
-  ctx.font = fontSize + 'px monospace';
+  const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  gradient.addColorStop(0, 'rgba(255,0,200,0.3)');
+  gradient.addColorStop(0.5, 'rgba(200,0,255,0.3)');
+  gradient.addColorStop(1, 'rgba(255,127,255,0.3)');
+  ctx.fillStyle = gradient;
 
-  for(let i=0; i<drops.length; i++){
-    const text = chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height/2);
 
-    if(drops[i]*fontSize > bgCanvas.height || Math.random() > 0.975){
-      drops[i] = 0;
-    }
-    drops[i]++;
+  for(let x=0; x<=canvas.width; x+=20){
+    const y = canvas.height/2 + Math.sin((x+waveOffset)/100)*60;
+    ctx.lineTo(x, y);
   }
-  requestAnimationFrame(drawBackground);
+
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.lineTo(0, canvas.height);
+  ctx.closePath();
+  ctx.fill();
+
+  waveOffset += 2; // speed of wave
+  requestAnimationFrame(drawWave);
 }
-drawBackground();
 
-// TENTACLE (WAVY LINE) FOLLOWING MOUSE
-const tentacleCanvas = document.getElementById('tentacle');
-const tCtx = tentacleCanvas.getContext('2d');
-tentacleCanvas.width = window.innerWidth;
-tentacleCanvas.height = window.innerHeight;
+drawWave();
 
-let mouseX = tentacleCanvas.width/2;
-let mouseY = tentacleCanvas.height/2;
-let points = [];
-const maxPoints = 30;
-let tentacleEnabled = true;
-
-window.addEventListener('mousemove', (e)=>{
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
-
-function drawTentacle(){
-  tCtx.clearRect(0,0,tentacleCanvas.width,tentacleCanvas.height);
-  if(tentacleEnabled){
-    points.push({x: mouseX, y: mouseY});
-    if(points.length > maxPoints) points.shift();
-
-    tCtx.strokeStyle = '#ff7eff';
-    tCtx.lineWidth = 4;
-    tCtx.beginPath();
-    for(let i=0;i<points.length;i++){
-      const p = points[i];
-      // Wavy effect using sine
-      const offsetY = Math.sin(i/2 + Date.now()/500) * 8;
-      if(i===0) tCtx.moveTo(p.x, p.y + offsetY);
-      else tCtx.lineTo(p.x, p.y + offsetY);
-    }
-    tCtx.stroke();
-  }
-  requestAnimationFrame(drawTentacle);
-}
-drawTentacle();
-
-// TOGGLE TENTACLE BUTTON
-const toggleBtn = document.getElementById('toggleTentacle');
-toggleBtn.addEventListener('click', ()=>{
-  tentacleEnabled = !tentacleEnabled;
-  if(!tentacleEnabled) tCtx.clearRect(0,0,tentacleCanvas.width,tentacleCanvas.height);
-});
-  
-// RESIZE CANVASES
+// RESIZE CANVAS
 window.addEventListener('resize', ()=>{
-  bgCanvas.width = window.innerWidth;
-  bgCanvas.height = window.innerHeight;
-  tentacleCanvas.width = window.innerWidth;
-  tentacleCanvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
