@@ -9,7 +9,7 @@ installBtn.addEventListener("click", () => {
   downloadLinks.style.display = "flex";
 });
 
-// WAVY CODE CHARACTERS BACKGROUND
+// MULTI-LAYER WAVY CODE BACKGROUND
 const canvas = document.getElementById('background');
 const ctx = canvas.getContext('2d');
 
@@ -18,31 +18,43 @@ let height = canvas.height = window.innerHeight;
 
 const chars = ['#', '*', '1', '0'];
 const fontSize = 18;
-const columns = Math.floor(width / fontSize);
+const layers = 3; // number of wave layers
+const waveLayers = [];
 
-const waveData = [];
-for(let i = 0; i < columns; i++){
-  waveData.push(Math.random() * height);
+// Initialize layers
+for(let l=0; l<layers; l++){
+  const columns = Math.floor(width / fontSize);
+  const waveData = [];
+  for(let i=0; i<columns; i++){
+    waveData.push(Math.random()*height);
+  }
+  waveLayers.push({
+    waveData,
+    speed: 0.3 + l*0.2,   // different speed per layer
+    amplitude: 30 + l*15, // different amplitude per layer
+    color: `rgba(${200+l*30},0,${255-l*20},0.3)` // slightly different neon colors
+  });
 }
 
-let waveOffset = 0;
+let offset = 0;
 
 function drawWaveChars(){
-  // fade previous frame for smoothness
+  // fade previous frame for smooth motion
   ctx.fillStyle = 'rgba(26,10,42,0.08)';
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0,0,width,height);
 
-  ctx.fillStyle = '#ff79f0';
-  ctx.font = fontSize + "px monospace";
+  waveLayers.forEach(layer => {
+    ctx.fillStyle = layer.color;
+    ctx.font = fontSize + "px monospace";
 
-  for(let i = 0; i < columns; i++){
-    const char = chars[Math.floor(Math.random()*chars.length)];
-    // Use sine + offset for smooth wave motion upward
-    const y = waveData[i] - (waveOffset*0.7) + Math.sin((i/2 + waveOffset/50)) * 40;
-    ctx.fillText(char, i * fontSize, y % height);
-  }
+    for(let i=0;i<layer.waveData.length;i++){
+      const char = chars[Math.floor(Math.random()*chars.length)];
+      const y = (layer.waveData[i] - offset*layer.speed + Math.sin((i/2 + offset/50)*2)*layer.amplitude) % height;
+      ctx.fillText(char, i*fontSize, y);
+    }
+  });
 
-  waveOffset += 1.2; // upward speed
+  offset += 1;
   requestAnimationFrame(drawWaveChars);
 }
 
