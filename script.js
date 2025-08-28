@@ -1,23 +1,14 @@
 const installBtn = document.getElementById("installBtn");
-const statusText = document.getElementById("statusText");
+const installerBox = document.querySelector(".installer-box");
 const downloadLinks = document.querySelector(".download-links");
 
-// Top animated messages
-const messages = ["Initializing...", "Checking system...", "Preparing files...", "Almost ready..."];
-let msgIndex = 0;
-
-setInterval(() => {
-  statusText.textContent = messages[msgIndex];
-  msgIndex = (msgIndex + 1) % messages.length;
-}, 2000);
-
-// Install button
 installBtn.addEventListener("click", () => {
-  installBtn.disabled = true;
-  statusText.textContent = "Installing...";
+  // Animate box to “installed” state
+  installerBox.classList.add("installed");
 
-  setTimeout(() => {
-    statusText.textContent = "✅ Installation complete!";
-    downloadLinks.style.display = "flex";
-  }, 3000);
+  // Hide install button
+  installBtn.style.display = "none";
+
+  // Show download buttons
+  downloadLinks.style.display = "flex";
 });
