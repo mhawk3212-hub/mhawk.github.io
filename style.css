@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
 
-/* Fallback: use Aptos if Ginto isn't available */
+/* Fallback font: Ginto for Copilot vibe */
 body {
   margin: 0;
   height: 100vh;
@@ -10,87 +10,110 @@ body {
   justify-content: center;
   align-items: center;
   background: #1a0a2a;
-  position: relative;
   color: #f0f0f5;
+  position: relative;
 }
 
-/* Installer box styling */
+/* Installer box */
 .installer-box {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   background: rgba(0, 0, 0, 0.6);
-  padding: 40px 50px;
-  border-radius: 20px;
+  padding: 40px 60px;
+  border-radius: 25px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 50px rgba(255, 0, 255, 0.4);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 60px rgba(255, 0, 255, 0.4);
 }
 
 .installer-box h1 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+  font-size: 2.8rem;
+  margin-bottom: 20px;
   color: #ff79f0;
 }
 
 .installer-box p {
   font-size: 1.2rem;
-  margin: 10px 0;
+  margin: 12px 0;
+}
+
+.installer-box .links {
+  margin-top: 20px;
+}
+
+.installer-box .links a {
+  color: #ff7eff;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.installer-box .links a:hover {
+  color: #d96aff;
 }
 
 /* Buttons */
 button {
-  padding: 14px 28px;
+  padding: 14px 30px;
   font-size: 18px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
   background: linear-gradient(90deg, #d96aff, #ff7eff);
   color: white;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 0, 200, 0.4);
+  box-shadow: 0 4px 20px rgba(255, 0, 200, 0.5);
 }
 
 button:hover {
   background: linear-gradient(90deg, #ff7eff, #d96aff);
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 0, 200, 0.6);
+  box-shadow: 0 6px 25px rgba(255, 0, 200, 0.7);
 }
 
-/* Animated rotating blur background */
-.background-blur {
+/* Multi-layer animated blur backgrounds */
+.background-blur, 
+.background-blur::after, 
+.background-blur::before {
   position: absolute;
-  top: -30%;
-  left: -30%;
   width: 160%;
   height: 160%;
-  background: linear-gradient(135deg, rgba(200,0,255,0.35), rgba(255,0,200,0.35), rgba(150,0,255,0.35));
+  top: -30%;
+  left: -30%;
   filter: blur(200px);
-  transform: rotate(35deg);
-  animation: drift 30s linear infinite;
+  border-radius: 50%;
   z-index: 1;
+  animation: drift 40s linear infinite;
+}
+
+.background-blur {
+  background: radial-gradient(circle at 30% 30%, rgba(200,0,255,0.4), transparent 70%);
+}
+
+.background-blur::after {
+  content: '';
+  background: radial-gradient(circle at 70% 40%, rgba(255,0,200,0.4), transparent 70%);
+  animation: drift2 60s linear infinite;
+}
+
+.background-blur::before {
+  content: '';
+  background: radial-gradient(circle at 50% 80%, rgba(150,0,255,0.35), transparent 70%);
+  animation: drift3 50s linear infinite;
 }
 
 @keyframes drift {
   0% { transform: rotate(35deg) translateY(0); }
-  100% { transform: rotate(35deg) translateY(100vh); }
-}
-
-/* Extra subtle moving second layer for depth */
-.background-blur::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(120deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
-  filter: blur(250px);
-  transform: rotate(-25deg);
-  animation: drift2 60s linear infinite;
+  100% { transform: rotate(35deg) translateY(120vh); }
 }
 
 @keyframes drift2 {
   0% { transform: rotate(-25deg) translateY(0); }
   100% { transform: rotate(-25deg) translateY(120vh); }
+}
+
+@keyframes drift3 {
+  0% { transform: rotate(15deg) translateY(0); }
+  100% { transform: rotate(15deg) translateY(120vh); }
 }
