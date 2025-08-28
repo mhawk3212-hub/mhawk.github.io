@@ -12,8 +12,7 @@ body {
   height: 100vh;
 }
 
-/* Canvas layers */
-canvas#background, canvas#tentacle {
+canvas#background {
   position: absolute;
   top: 0;
   left: 0;
@@ -88,27 +87,4 @@ button#installBtn:hover {
 .download-links a:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 30px rgba(255,0,200,0.8);
-}
-
-/* Toggle tentacle button */
-#toggleTentacle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #ff7eff, #d96aff);
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(255,0,200,0.5);
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-#toggleTentacle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(255,0,200,0.7);
 }
