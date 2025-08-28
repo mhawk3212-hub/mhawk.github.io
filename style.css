@@ -1,20 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
+
+/* Fallback: use Aptos if Ginto isn't available */
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #2c3e50, #3498db);
-  color: #fff;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Ginto', 'Aptos', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  background: #1a0a2a;
+  position: relative;
+  color: #f0f0f5;
 }
 
 .installer-box {
+  position: relative;
+  z-index: 2;
   background: rgba(0, 0, 0, 0.6);
   padding: 30px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
 button {
@@ -23,11 +29,30 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background: #27ae60;
+  background: #d96aff;
   color: white;
   transition: background 0.3s ease;
 }
 
 button:hover {
-  background: #2ecc71;
+  background: #ff7eff;
+}
+
+/* Animated rotating blur background */
+.background-blur {
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: linear-gradient(135deg, rgba(200,0,255,0.3), rgba(255,0,200,0.3), rgba(150,0,255,0.3));
+  filter: blur(150px);
+  transform: rotate(35deg);
+  animation: drift 15s linear infinite;
+  z-index: 1;
+}
+
+@keyframes drift {
+  0% { transform: rotate(35deg) translateY(0); }
+  100% { transform: rotate(35deg) translateY(100vh); }
 }
